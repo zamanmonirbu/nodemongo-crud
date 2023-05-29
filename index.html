@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Look mom !!!!</h1>
+    <form action="addProduct" method="post">
+        <input type="text" placeholder="name" name="name">
+        <input type="text" placeholder="price" name="price">
+        <input type="text" placeholder="quantity" name="quantity">
+        <button type="submit">AddProduct</button>
+    </form>
+
+<div id="product">
+
+</div>
+<div id="update">
+
+</div>
+
+<script>
+  function loadProducts(){
+    fetch('/product')
+    .then(res=>res.json())
+    .then(products=>{
+        console.log(products);
+        const container=document.getElementById('product');
+        products.forEach(pd => {
+            const p=document.createElement('p')
+            p.innerHTML=`${pd.name}--${pd.price}--${pd.quantity} <button onclick="deleteProduct('${pd._id}')">Delete </button>
+            <button onclick="loadProduct('${pd._id}')">Update </button>
+            `;
+            
+            container.appendChild(p);            
+        });
+    })
+  }
+  loadProducts()
+
+//   function deleteProduct(id) {
+//   fetch(`/delete/${id}`, {
+//     method: 'DELETE'
+//   })
+//     .then(res => res.json())
+//     .then(result => {
+//       console.log(result,'Delete success');
+//     })
+//     .catch(error => {
+//       console.error('Error deleting product:', error);
+//     });
+// }
+
+function loadProduct(id){
+    fetch(`/update/${id}`)
+    .then(res=>res.json())
+    .then(data=>{
+       const update=getElementById('update');
+       update.innerHTML=` <h3>${data._id} </h3>
+       `;
+    })
+}
+
+
+</script>
+
+</body>
+</html>
